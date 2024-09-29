@@ -3,7 +3,7 @@
 This works without root privilege, tested on a governmental HPC without root privilege.
 Currently, this configuration creates only one compute node. If you know how to create multiple compute nodes (like in the [slurm-docker-cluster](https://github.com/giovtorres/slurm-docker-cluster)), then please create a pull request.
 
-## Steps to create a slurm cluster with one compute node in singularity container:
+## Steps to create a slurm cluster with one compute node in a singularity container:
 
 On host system:
 ```bash
