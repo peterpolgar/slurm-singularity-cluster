@@ -8,7 +8,7 @@ Currently, this configuration creates only one compute node. If you know how to 
 On host system:
 ```bash
 singularity build --fakeroot slurm.sif slurm.def
-# This command below create a temporary instance, a sandbox environment, so all changes will lost when you stop the instance
+# This command below creates a temporary instance, a sandbox environment, so all changes will lost when you stop the instance
 singularity instance start --fakeroot --writable slurm.sif sis
 singularity shell instance://sis # you can exit from and reopen the shell, no data (or changes) will loss
 ```
