@@ -20,7 +20,7 @@ singularity shell instance://sis # you can exit from and reopen the shell, no da
 # If slurm initialization is done, then the /data/done file exists, else it does not exist.
 ls /data/done
 # If the output is '/data/done' then the slurm cluster is ready to use
-# If the output is 'ls: cannot access '/data/done': No such file or directory', then the slurm cluster is NOT ready yet to use
+# If the output is 'ls: cannot access '/data/done': No such file or directory', then the slurm cluster is NOT yet ready to use
 ```
 
 ## To stop slurm (in singularity shell):
