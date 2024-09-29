@@ -23,7 +23,7 @@ ls /data/done
 # If the output is 'ls: cannot access '/data/done': No such file or directory', then the slurm cluster is NOT ready yet to use
 ```
 
-### To stop slurm (in singularity shell):
+## To stop slurm (in singularity shell):
 
 ```bash
 pkill slurmd
@@ -31,13 +31,13 @@ pkill slurmctld
 pkill slurmdbd
 ```
 
-### To stop mysqld (in singularity shell):
+## To stop mysqld (in singularity shell):
 
 ```bash
 pkill mysqld
 ```
 
-### To stop the created singularity instance (on host):
+## To stop the created singularity instance (on host):
 
 ```bash
 singularity instance stop sis
