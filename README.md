@@ -9,6 +9,9 @@ On host system:
 ```bash
 git clone https://github.com/peterpolgar/slurm-singularity-cluster.git
 cd slurm-singularity-cluster
+# IMPORTANT! By default, in the slurm.conf and the slurmdbd.conf the hostname is vn01,
+# if your host has another hostname, then replace vn01 with your hostname in the slurm.conf and the slurmdbd.conf files.
+# You can get your hostname with the command ```echo $HOSTNAME```.
 singularity build --fakeroot slurm.sif slurm.def
 # This command below creates a temporary instance, a sandbox environment, so all changes will lost when you stop the instance
 singularity instance start --fakeroot --writable slurm.sif sis
@@ -24,6 +27,17 @@ ls /data/done
 # If the output is '/data/done' then the slurm cluster is ready to use
 # If the output is 'ls: cannot access '/data/done': No such file or directory', then the slurm cluster is NOT yet ready to use
 ```
+
+## Check with the sinfo command (in singularity shell):
+
+If everything is working, then the ```sinfo``` command should produce something like this:
+
+```bash
+Singularity> sinfo
+PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
+fopart*      up   10:00:00      1   idle vn01
+```
+
 
 ## To stop slurm (in singularity shell):
 
