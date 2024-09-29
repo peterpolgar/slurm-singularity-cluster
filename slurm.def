@@ -13,7 +13,7 @@ From: ubuntu:22.04
     apt update
     apt install -y munge libmunge-dev libpmix-bin libpmix-dev openmpi-bin libopenmpi-dev \
         wget bzip2 libdbus-1-dev make gcc g++ git nano libevent-dev autoconf \
-        automake binutils net-tools python3 perl bash-completion gnupg git
+        automake binutils net-tools python3 perl bash-completion gnupg
     mkdir /data && cd /data
     mkdir log
     chmod 777 log
