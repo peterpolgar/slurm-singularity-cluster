@@ -1,0 +1,68 @@
+Bootstrap: library
+From: ubuntu:22.04
+
+%files
+    slurm.conf /usr/local/etc/
+    slurmdbd.conf /usr/local/etc/
+    50-server.cnf /etc/
+    mysql_commands.txt /etc/
+
+%post
+    apt update
+    apt -y upgrade
+    apt update
+    apt install -y munge libmunge-dev libpmix-bin libpmix-dev openmpi-bin libopenmpi-dev \
+        wget bzip2 libdbus-1-dev make gcc g++ git nano libevent-dev autoconf \
+        automake binutils net-tools python3 perl bash-completion gnupg git
+    mkdir /data && cd /data
+    mkdir log
+    chmod 777 log
+    mkdir /run/munge
+    useradd -r slurm
+    usermod -u 997 slurm
+    groupmod -g 997 slurm
+    wget https://download.schedmd.com/slurm/slurm-24.05.3.tar.bz2
+    tar --bzip -x -f slurm-24.05.3.tar.bz2
+    cd slurm-24.05.3
+    ./configure --with-pmix
+    make -j8
+    make install
+    cd /data/slurm-24.05.3/contribs/pmi2
+    make
+    make install
+    ldconfig -n /usr/local/lib/libslurm.so
+    chmod 644 /usr/local/etc/slurm.conf
+    mkdir /var/spool/slurmctld
+    chmod 755 /var/spool/slurmctld
+    mkdir /var/spool/slurmd
+    cp /data/slurm-24.05.3/contribs/slurm_completion_help/slurm_completion.sh /etc/profile.d/slurm_completion.sh
+    cd /data/slurm-24.05.3/contribs/seff
+    make && make install
+    echo 'CgroupPlugin=disabled' > /usr/local/etc/cgroup.conf
+    mkdir /run/mysqld
+    mv /etc/mysql_commands.txt /data/
+    chmod 600 /usr/local/etc/slurmdbd.conf
+    mkdir /var/run/slurmdbd
+
+%startscript
+    chown -R slurm:slurm /var/spool/slurmctld /usr/local/etc/slurm.conf /usr/local/etc/slurmdbd.conf /var/run/slurmdbd
+    munged --force
+    service dbus start
+    apt install -y mariadb-server libmariadb-dev
+    chown mysql:mysql /run/mysqld
+    mv /etc/50-server.cnf /etc/mysql/mariadb.conf.d/
+    runuser -u mysql mysqld &
+    sleep 1
+    mysql < /data/mysql_commands.txt
+    cd /data/slurm-24.05.3
+    make distclean
+    /data/slurm-24.05.3/configure --with-pmix --with-mysql_config=/usr/bin
+    cd /data/slurm-24.05.3/src/plugins/accounting_storage/mysql
+    make -j8 && make install
+    slurmdbd
+    sleep 1
+    slurmctld
+    sleep 1
+    slurmd
+    sleep 1
+    touch /data/done
