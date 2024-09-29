@@ -16,7 +16,7 @@ singularity shell instance://sis # you can exit from and reopen the shell, no da
 ### If you immediately want to use the slurm cluster after you created the singularity instance, do this in singularity shell:
 
 ```bash
-# Check if slurm initialization has been ended, it takes appr. 1 minute to complete the initialization after the singularity instance created
+# Check if slurm initialization has been ended, it takes appr. 1 minute to complete the initialization after the singularity instance has been created
 # If slurm initialization is done, then the /data/done file exists, else it does not exist.
 ls /data/done
 # If the output is '/data/done' then the slurm cluster is ready to use
