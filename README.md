@@ -5,8 +5,6 @@ Currently, this configuration creates only one compute node (which node is the s
 
 ## Steps to create a slurm cluster with one compute node in a singularity container:
 
-IMPORTANT! By default, in the slurm.conf and the slurmdbd.conf the hostname is vn01, if your host has another hostname, then replace vn01 with your hostname in the slurm.conf and the slurmdbd.conf files. You can get your hostname with the command ```echo $HOSTNAME```.
-
 On host system:
 ```bash
 git clone https://github.com/peterpolgar/slurm-singularity-cluster.git
