@@ -11,7 +11,7 @@ On host system:
 ```bash
 git clone https://github.com/peterpolgar/slurm-singularity-cluster.git
 cd slurm-singularity-cluster
-singularity build --fakeroot slurm.sif slurm.def
+singularity build --fakeroot --build-arg hostname=${HOSTNAME} slurm.sif slurm.def
 # This command below creates a temporary instance, a sandbox environment, so all changes will lost when you stop the instance
 singularity instance start --fakeroot --writable slurm.sif sis
 singularity shell instance://sis # you can exit from and reopen the shell, no data (or changes) will loss
