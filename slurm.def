@@ -31,6 +31,7 @@ From: ubuntu:22.04
     make
     make install
     ldconfig -n /usr/local/lib/libslurm.so
+    sed -i 's/vn01/'{{ hostname }}'/g' /usr/local/etc/slurm.conf /usr/local/etc/slurmdbd.conf
     chmod 644 /usr/local/etc/slurm.conf
     mkdir /var/spool/slurmctld
     chmod 755 /var/spool/slurmctld
