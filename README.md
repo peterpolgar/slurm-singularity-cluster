@@ -44,10 +44,10 @@ fopart*      up   10:00:00      1   idle vn01
 Singularity> srun echo yes
 yes
 Singularity> srun --pty bash
-root@polgarp:/# ls
+root@vn01:/# ls
 bin   data  environment  home  lib32  libx32  mnt  proc  run   singularity  sys  usr
 boot  dev   etc          lib   lib64  media   opt  root  sbin  srv          tmp  var
-root@polgarp:/# exit
+root@vn01:/# exit
 exit
 Singularity> sacct
 JobID           JobName  Partition    Account  AllocCPUS      State ExitCode
