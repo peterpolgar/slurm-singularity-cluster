@@ -1,7 +1,7 @@
 # Slurm cluster in Singularity container
 
 This works without root privilege, tested on a governmental HPC without root privilege.
-Currently, this configuration creates only one compute node (which node is the same as the controller and the accounting manager node). If you know how to configure multiple compute nodes (like in the [slurm-docker-cluster](https://github.com/giovtorres/slurm-docker-cluster), I mean multiple virtual compute node on a same physical machine), then please create a pull request. Configuring multiple physical compute node works, it is tested, details are coming soon...
+Currently, this configuration creates only one compute node (which node is the same as the controller and the accounting manager node). If you know how to configure multiple virtual compute nodes (like in the [slurm-docker-cluster](https://github.com/giovtorres/slurm-docker-cluster)), then please create a pull request. Configuring multiple physical compute node works, it is tested, details are coming soon...
 
 ## Steps to create a slurm cluster with one compute node in a singularity container
 
