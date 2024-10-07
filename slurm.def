@@ -54,6 +54,7 @@ From: ubuntu:22.04
     touch /data/sshlog
     mkdir /run/sshd
     chmod 755 /run/sshd
+    mkdir /data/shared
 
 %startscript
     chmod 777 /tmp
