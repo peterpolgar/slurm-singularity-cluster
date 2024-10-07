@@ -44,6 +44,8 @@ From: ubuntu:22.04
     mv /etc/mysql_commands.txt /data/
     chmod 600 /usr/local/etc/slurmdbd.conf
     mkdir /var/run/slurmdbd
+    cd /data/slurm-24.05.3
+    make distclean
 
 %startscript
     chown -R slurm:slurm /var/spool/slurmctld /usr/local/etc/slurm.conf /usr/local/etc/slurmdbd.conf /var/run/slurmdbd
@@ -56,8 +58,7 @@ From: ubuntu:22.04
     sleep 1
     mysql < /data/mysql_commands.txt
     cd /data/slurm-24.05.3
-    make distclean
-    /data/slurm-24.05.3/configure --with-pmix --with-mysql_config=/usr/bin
+    ./configure --with-pmix --with-mysql_config=/usr/bin
     cd /data/slurm-24.05.3/src/plugins/accounting_storage/mysql
     make -j8 && make install
     slurmdbd
