@@ -50,6 +50,7 @@ From: ubuntu:22.04
     make distclean
     sed -i 's/#Port 22/Port 6830/g' /etc/ssh/sshd_config
     sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config
+    sed -i 's/#StrictModes yes/StrictHostKeyChecking accept-new/g' /etc/ssh/sshd_config
     touch /data/sshlog
     mkdir /run/sshd
     chmod 755 /run/sshd
