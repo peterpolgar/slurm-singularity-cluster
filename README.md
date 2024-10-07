@@ -82,3 +82,15 @@ pkill mysqld
 pkill sshd
 ```
 
+## Compute node
+
+```bash
+git clone https://github.com/peterpolgar/slurm-singularity-cluster.git
+cd slurm-singularity-cluster
+singularity build --fakeroot slurm.sif slurm_compute_node.def
+# This command below creates a temporary instance, a sandbox environment,
+#     so all changes will lost when you stop the instance
+singularity instance start --fakeroot --writable slurm.sif sis
+# Check if instance initialization has ended (do not afraid of "No such file or directory" output):
+xd=""; while [[ $xd != "/data/done" ]]; do sleep 1; xd=`singularity exec instance://sis ls /data/done`; done
+```
