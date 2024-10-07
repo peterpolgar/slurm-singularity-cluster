@@ -1,0 +1,47 @@
+Bootstrap: library
+From: ubuntu:22.04
+
+%files
+    id_ed25519 /etc/
+    id_ed25519.pub /etc/
+
+%post
+    apt update
+    apt -y upgrade
+    apt update
+    apt install -y munge libmunge-dev libpmix-bin libpmix-dev openmpi-bin libopenmpi-dev \
+        wget bzip2 libdbus-1-dev make gcc g++ git nano libevent-dev autoconf \
+        automake binutils net-tools python3 perl bash-completion gnupg \
+        openssh-client sshfs
+    mkdir /data && cd /data
+    mkdir log
+    chmod 777 log
+    mkdir /run/munge
+    useradd -r slurm
+    usermod -u 997 slurm
+    groupmod -g 997 slurm
+    wget https://download.schedmd.com/slurm/slurm-24.05.3.tar.bz2
+    tar --bzip -x -f slurm-24.05.3.tar.bz2
+    cd slurm-24.05.3
+    ./configure --with-pmix
+    make -j8
+    make install
+    cd /data/slurm-24.05.3/contribs/pmi2
+    make
+    make install
+    ldconfig -n /usr/local/lib/libslurm.so
+    mkdir /var/spool/slurmd
+    cp /data/slurm-24.05.3/contribs/slurm_completion_help/slurm_completion.sh /etc/profile.d/slurm_completion.sh
+    cd /data/slurm-24.05.3/contribs/seff
+    make && make install
+    echo 'CgroupPlugin=disabled' > /usr/local/etc/cgroup.conf
+    mkdir /data/shared
+
+%startscript
+    mkdir /root/.ssh
+    mv /etc/id_ed25519 /root/.ssh/
+    chmod 600 /root/.ssh/id_ed25519
+    mv /etc/id_ed25519.pub /root/.ssh/
+    munged --force
+    service dbus start
+    touch /data/done
