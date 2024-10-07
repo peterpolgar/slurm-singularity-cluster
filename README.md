@@ -82,15 +82,90 @@ pkill mysqld
 pkill sshd
 ```
 
-## Compute node
+## Steps to create slurm cluster with multiple physical compute nodes
 
+This section provides a description of how to set up a slurm cluster of two compute nodes, additional compute nodes can be added in a similar manner.
+
+1. Install slurm-singularity-cluster on a machine you want to be the controller node (and the accounting manager node and a compute node) with the steps above.
+2. **On the controller node**, add a compute node to the slurm config file with the hostname of the compute node, e.g. add a compute node with hostname "laptop":
+In Singularity shell:
+```bash
+echo 'NodeName=laptop State=UNKNOWN RealMemory=3000' >> /usr/local/etc/slurm.conf
+```
+3. **On the controller node**, ensure that there is an assigned ip address to the hostname of the previously added compute node in the ```/etc/hosts``` file inside Singularity container.
+4. Install slurm-singularity-cluster with slurm_compute_node.def on a machine you want to be a compute node:
+First, download:
 ```bash
 git clone https://github.com/peterpolgar/slurm-singularity-cluster.git
 cd slurm-singularity-cluster
+```
+Then, configure ```slurm_compute_node.def``` with your controller's hostname
+```bash
+sed -i 's/vn01/hostname/g' slurm_compute_node.def
+```
+Finally, 
+```bash
 singularity build --fakeroot slurm.sif slurm_compute_node.def
 # This command below creates a temporary instance, a sandbox environment,
 #     so all changes will lost when you stop the instance
 singularity instance start --fakeroot --writable slurm.sif sis
 # Check if instance initialization has ended (do not afraid of "No such file or directory" output):
 xd=""; while [[ $xd != "/data/done" ]]; do sleep 1; xd=`singularity exec instance://sis ls /data/done`; done
+```
+5. Start slurm daemons:
+First kill slurm daemons on controller node:
+```bash
+pkill slurmd
+pkill slurmctld
+pkill slurmdbd
+```
+Start daemons on controller node:
+```bash
+slurmdbd
+sleep 1
+slurmctld
+sleep 1
+slurmd
+```
+Start slurmd on compute node:
+```bash
+slurmd
+```
+6. Check
+If everything is working, then the sinfo command should produce something like this:
+```bash
+Singularity> sinfo
+PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
+fopart*      up   10:00:00      2   idle laptop,vn01
+Singularity>
+```
+
+If a compute node state is not idle, try to change it to idle with this command, e.g.:
+```bash
+scontrol update nodename=laptop state=idle
+```
+7. Test the slurm cluster with an mpi application
+On controller node:
+```bash
+cd /data/shared
+wget https://gist.githubusercontent.com/understeer/9462697/raw/3536b3b365b34c0af7f567b17ca1bc042ae0ef3c/mpitest.c
+mpicc mpitest.c -o mpitest
+# pretest the application:
+mpirun --allow-run-as-root -n 2 mpitest
+# the test:
+salloc -N 2 mpirun --allow-run-as-root mpitest
+```
+On successful execution, the salloc command above should produce something similar to the following output:
+```bash
+salloc: Granted job allocation 4
+Start! rank:0 size: 2 at vn01
+Done!  rank:0 size: 2 at vn01
+Start! rank:1 size: 2 at laptop
+Done!  rank:1 size: 2 at laptop
+salloc: Relinquishing job allocation 4
+```
+
+Note: If you want to unmount the shared mounted folder on compute node in Singularity container:
+```bash
+umount /data/shared
 ```
