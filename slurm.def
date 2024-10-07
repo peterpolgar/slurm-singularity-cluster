@@ -6,7 +6,6 @@ From: ubuntu:22.04
     slurmdbd.conf /usr/local/etc/
     50-server.cnf /etc/
     mysql_commands.txt /etc/
-    id_ed25519 /etc/
     id_ed25519.pub /etc/
 
 %post
@@ -16,7 +15,7 @@ From: ubuntu:22.04
     apt install -y munge libmunge-dev libpmix-bin libpmix-dev openmpi-bin libopenmpi-dev \
         wget bzip2 libdbus-1-dev make gcc g++ git nano libevent-dev autoconf \
         automake binutils net-tools python3 perl bash-completion gnupg \
-        openssh-server openssh-client sshfs
+        openssh-server
     mkdir /data && cd /data
     mkdir log
     chmod 777 log
@@ -59,9 +58,7 @@ From: ubuntu:22.04
 %startscript
     chmod 777 /tmp
     mkdir /root/.ssh
-    mv /etc/id_ed25519 /root/.ssh/
-    mv /etc/id_ed25519.pub /root/.ssh/
-    cat /root/.ssh/id_ed25519.pub > /root/.ssh/authorized_keys
+    cat /etc/id_ed25519.pub > /root/.ssh/authorized_keys
     chown -R slurm:slurm /var/spool/slurmctld /usr/local/etc/slurm.conf /usr/local/etc/slurmdbd.conf /var/run/slurmdbd
     munged --force
     service dbus start
