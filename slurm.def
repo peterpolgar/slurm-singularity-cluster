@@ -80,4 +80,5 @@ From: ubuntu:22.04
     sleep 1
     slurmd
     sleep 1
+    /usr/sbin/sshd -E /data/sshlog
     touch /data/done
