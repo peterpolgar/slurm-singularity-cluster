@@ -15,6 +15,7 @@ singularity build --fakeroot --build-arg hostname=${HOSTNAME} slurm.sif slurm.de
 singularity instance start --fakeroot --writable --no-mount tmp slurm.sif sis
 # Check if instance initialization has ended (do not afraid of "No such file or directory" output):
 xd=""; while [[ $xd != "/data/done" ]]; do sleep 1; xd=`singularity exec instance://sis ls /data/done`; done
+
 ```
 
 ## Start Singularity shell
