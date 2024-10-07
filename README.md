@@ -1,7 +1,7 @@
 # Slurm cluster in Singularity container
 
 This works without root privilege, tested on a governmental HPC without root privilege.
-Currently, this configuration creates only one compute node (which node is the same as the controller and the accounting manager node). If you know how to configure multiple virtual compute nodes (like in the [slurm-docker-cluster](https://github.com/giovtorres/slurm-docker-cluster)), then please create a pull request. Configuring multiple physical compute node works, it is tested, details are coming soon...
+Currently, this configuration creates only one compute node (which node is the same as the controller and the accounting manager node). If you know how to configure multiple virtual compute nodes (like in the [slurm-docker-cluster](https://github.com/giovtorres/slurm-docker-cluster)), then please create a pull request. Configuring multiple physical compute nodes works, [see the setup here](#steps-to-create-slurm-cluster-with-multiple-physical-compute-nodes).
 
 ## Steps to create a slurm cluster with one compute node in a singularity container
 
@@ -86,13 +86,13 @@ pkill sshd
 
 This section provides a description of how to set up a slurm cluster of two compute nodes, additional compute nodes can be added in a similar manner.
 
-1. Install slurm-singularity-cluster on a machine you want to be the controller node (and the accounting manager node and a compute node) with the steps above.
-2. **On the controller node**, add a compute node to the slurm config file with the hostname of the compute node, e.g. add a compute node with hostname "laptop":
+1. Install slurm-singularity-cluster on a machine you want to be the controller node (and the accounting manager node and a compute node) with [the steps above](#steps-to-create-a-slurm-cluster-with-one-compute-node-in-a-singularity-container).
+2. On the controller node, add a compute node to the slurm config file with the hostname of the compute node, e.g. add a compute node with hostname "laptop":
 In Singularity shell:
 ```bash
 echo 'NodeName=laptop State=UNKNOWN RealMemory=3000' >> /usr/local/etc/slurm.conf
 ```
-3. **On the controller node**, ensure that there is an assigned ip address to the hostname of the previously added compute node in the ```/etc/hosts``` file inside Singularity container.
+3. On the controller node, ensure that there is an assigned ip address to the hostname of the previously added compute node in the ```/etc/hosts``` file inside Singularity container.
 4. Install slurm-singularity-cluster with slurm_compute_node.def on a machine you want to be a compute node:
 First, download:
 ```bash
