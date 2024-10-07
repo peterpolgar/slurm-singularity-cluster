@@ -48,6 +48,7 @@ From: ubuntu:22.04
     make distclean
 
 %startscript
+    chmod 777 /tmp
     chown -R slurm:slurm /var/spool/slurmctld /usr/local/etc/slurm.conf /usr/local/etc/slurmdbd.conf /var/run/slurmdbd
     munged --force
     service dbus start
