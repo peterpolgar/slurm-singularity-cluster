@@ -63,12 +63,6 @@ pkill slurmctld
 pkill slurmdbd
 ```
 
-## To stop mysqld (in singularity shell)
-
-```bash
-pkill mysqld
-```
-
 ## To stop the created singularity instance (on host)
 
 All changes made to the instance will be lost after this command:
@@ -76,3 +70,16 @@ All changes made to the instance will be lost after this command:
 ```bash
 singularity instance stop sis
 ```
+
+## To stop mysqld (in singularity shell)
+
+```bash
+pkill mysqld
+```
+
+## To stop sshd (in singularity shell)
+
+```bash
+pkill sshd
+```
+
