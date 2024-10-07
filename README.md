@@ -13,20 +13,15 @@ singularity build --fakeroot --build-arg hostname=${HOSTNAME} slurm.sif slurm.de
 # This command below creates a temporary instance, a sandbox environment,
 #     so all changes will lost when you stop the instance
 singularity instance start --fakeroot --writable --no-mount tmp slurm.sif sis
-singularity shell instance://sis # you can exit from and reopen the shell,
-                                 #     no data (or changes) will loss
+# Check if instance initialization has ended (do not afraid of "No such file or directory" output):
+xd=""; while [[ $xd != "/data/done" ]]; do sleep 1; xd=`singularity exec instance://sis ls /data/done`; done
 ```
 
-### If you immediately want to use the slurm cluster after you created the singularity instance, do this in singularity shell
+## Start Singularity shell
 
 ```bash
-# Check if slurm initialization has been ended, it takes appr. 1 minute to complete
-#     the initialization after the singularity instance has been created
-# If slurm initialization is done, then the /data/done file exists, else it does not exist.
-ls /data/done
-# If the output is '/data/done' then the slurm cluster is ready to use
-# If the output is 'ls: cannot access '/data/done': No such file or directory',
-#     then the slurm cluster is NOT yet ready to use
+singularity shell instance://sis # you can exit from and reopen the shell,
+                                 #     no data (or changes) will loss
 ```
 
 ## Check with the sinfo command (in singularity shell)
@@ -74,6 +69,8 @@ pkill mysqld
 ```
 
 ## To stop the created singularity instance (on host)
+
+All changes made to the instance will be lost after this command:
 
 ```bash
 singularity instance stop sis
