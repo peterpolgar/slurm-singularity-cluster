@@ -91,12 +91,12 @@ This section provides a description of how to set up a slurm cluster of two comp
 
 1. Install slurm-singularity-cluster on a machine you want to be the controller node (and the accounting manager node and a compute node) with [the steps above](#steps-to-create-a-slurm-cluster-with-one-compute-node-in-a-singularity-container).
 2. On the controller node, add a compute node to the slurm config file with the hostname of the compute node, e.g. add a compute node with hostname "laptop":
-In Singularity shell:
 ```bash
 echo 'NodeName=laptop State=UNKNOWN RealMemory=3000' >> /usr/local/etc/slurm.conf
 ```
 3. On the controller node, ensure that there is an assigned ip address to the hostname of the previously added compute node in the ```/etc/hosts``` file inside Singularity container.
 4. Install slurm-singularity-cluster with ```slurm_compute_node.def``` on a machine you want to be a compute node:
+
 First, download:
 ```bash
 git clone https://github.com/peterpolgar/slurm-singularity-cluster.git
