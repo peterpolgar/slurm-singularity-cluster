@@ -115,7 +115,8 @@ singularity instance start --fakeroot --writable slurm.sif sis
 # Check if instance initialization has ended (do not afraid of "No such file or directory" output):
 xd=""; while [[ $xd != "/data/done" ]]; do sleep 1; xd=`singularity exec instance://sis ls /data/done`; done
 ```
-5. Start slurm daemons:
+5. Start slurm daemons
+
 First kill slurm daemons on controller node:
 ```bash
 pkill slurmd
