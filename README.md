@@ -96,7 +96,7 @@ In Singularity shell:
 echo 'NodeName=laptop State=UNKNOWN RealMemory=3000' >> /usr/local/etc/slurm.conf
 ```
 3. On the controller node, ensure that there is an assigned ip address to the hostname of the previously added compute node in the ```/etc/hosts``` file inside Singularity container.
-4. Install slurm-singularity-cluster with slurm_compute_node.def on a machine you want to be a compute node:
+4. Install slurm-singularity-cluster with ```slurm_compute_node.def``` on a machine you want to be a compute node:
 First, download:
 ```bash
 git clone https://github.com/peterpolgar/slurm-singularity-cluster.git
@@ -104,7 +104,7 @@ cd slurm-singularity-cluster
 ```
 Then, configure ```slurm_compute_node.def``` with your controller's hostname
 ```bash
-sed -i 's/vn01/hostname/g' slurm_compute_node.def
+sed -i 's/vn01/controller_hostname/g' slurm_compute_node.def
 ```
 Finally, 
 ```bash
@@ -135,12 +135,12 @@ Start slurmd on compute node:
 slurmd
 ```
 6. Check
+
 If everything is working, then the sinfo command should produce something like this:
 ```bash
 Singularity> sinfo
 PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
 fopart*      up   10:00:00      2   idle laptop,vn01
-Singularity>
 ```
 
 If a compute node state is not idle, try to change it to idle with this command, e.g.:
@@ -148,6 +148,7 @@ If a compute node state is not idle, try to change it to idle with this command,
 scontrol update nodename=laptop state=idle
 ```
 7. Test the slurm cluster with an mpi application
+
 On controller node:
 ```bash
 cd /data/shared
