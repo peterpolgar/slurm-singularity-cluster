@@ -38,6 +38,7 @@ From: ubuntu:22.04
     mkdir /data/shared
 
 %startscript
+    chmod 777 /tmp
     mkdir /root/.ssh
     mv /etc/id_ed25519 /root/.ssh/
     chmod 600 /root/.ssh/id_ed25519
