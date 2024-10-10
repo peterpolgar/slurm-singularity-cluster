@@ -91,7 +91,7 @@ pkill sshd
 
 ## Steps to create a slurm cluster with multiple physical compute nodes
 
-Required: SingularityCE version >= 4.0.1; These ports do not be blocked by firewall (or by other things): 6827, 6828, 6829, 6830
+**Required**: SingularityCE version >= 4.0.1; These ports do not be blocked by firewall (or by other things): 6827, 6828, 6829, 6830
 
 This section provides a description of how to set up a slurm cluster of two compute nodes, additional compute nodes can be added in a similar manner.
 
