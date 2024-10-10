@@ -5,7 +5,7 @@ This works without root privilege.
 Configuring multiple physical compute nodes works, [see the setup here](#steps-to-create-a-slurm-cluster-with-multiple-physical-compute-nodes).
 
 ## Prerequisite
-Installed Singularity version >= 4.0.1
+Installed Singularity version >= 4.0.1. Theoretically, the configurations below work with unprivileged installation(s) of the Singularity software, it is not tested.
 
 ## Steps to create a slurm cluster with one compute node in a singularity container
 
