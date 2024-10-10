@@ -1,6 +1,6 @@
 # Slurm cluster in Singularity container(s)
 
-This works without root privilege, tested on a governmental HPC without root privilege.
+This works without root privilege.
 
 Configuring multiple physical compute nodes works, [see the setup here](#steps-to-create-slurm-cluster-with-multiple-physical-compute-nodes).
 
