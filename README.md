@@ -124,7 +124,7 @@ Finally,
 # This command below creates a temporary instance, a sandbox environment,
 #     so all changes will lost when you stop the instance
 singularity instance start --fakeroot --writable -c --bind /dev/fuse --bind myhosts:/etc/hosts slurm.sif sis
-# Check if instance initialization has ended (do not afraid of "No such file or directory" output):
+# Check if instance initialization is ended (do not afraid of "No such file or directory" output):
 xd=""; while [[ $xd != "/data/done" ]]; do sleep 1; xd=`singularity exec instance://sis ls /data/done`; done
 ```
 
@@ -165,7 +165,7 @@ If a compute node state is not idle, try to change it to idle with this command,
 ```bash
 scontrol update nodename=laptop state=idle
 ```
-7. Test the slurm cluster with an mpi application
+7. Test the slurm cluster with an MPI application
 
 (in Singularity shell)
 
