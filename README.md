@@ -2,7 +2,7 @@
 
 This works without root privilege.
 
-Configuring multiple physical compute nodes works, [see the setup here](#steps-to-create-slurm-cluster-with-multiple-physical-compute-nodes).
+Configuring multiple physical compute nodes works, [see the setup here](#steps-to-create-a-slurm-cluster-with-multiple-physical-compute-nodes).
 
 ## Prerequisite
 Installed Singularity version >= 4.0.1
