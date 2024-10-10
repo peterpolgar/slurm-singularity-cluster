@@ -9,7 +9,7 @@ Installed Singularity version >= 4.0.1
 
 ## Steps to create a slurm cluster with one compute node in a singularity container
 
-Currently, this configuration creates only one compute node (which node is the same as the controller and the accounting manager node). If you know how to configure multiple virtual compute nodes (like in the [slurm-docker-cluster](https://github.com/giovtorres/slurm-docker-cluster)), then please create a pull request.
+This configuration creates only one compute node (which node is the same as the controller and the accounting manager node). If you know how to configure multiple virtual compute nodes (like in the [slurm-docker-cluster](https://github.com/giovtorres/slurm-docker-cluster)), then please create a pull request.
 
 On host system:
 ```bash
