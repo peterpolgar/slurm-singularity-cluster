@@ -94,11 +94,11 @@ pkill sshd
 This section provides a description of how to set up a slurm cluster of two compute nodes, additional compute nodes can be added in a similar manner.
 
 1. Install slurm-singularity-cluster on a machine you want to be the controller node (and the accounting manager node and a compute node) with [the steps above](#steps-to-create-a-slurm-cluster-with-one-compute-node-in-a-singularity-container).
-2. On the controller node, add a compute node to the slurm config file with the hostname of the compute node, e.g. add a compute node with hostname "laptop" (in Singularity shell):
+2. On the controller node, ensure that there is an assigned ip address to the hostname of the compute node you want to add in the ```/etc/hosts``` file inside Singularity container, if no such entry, edit that file (in Singularity shell).
+3. On the controller node, add the compute node to the slurm config file, e.g. add a compute node with hostname "laptop" (in Singularity shell):
 ```bash
 echo 'NodeName=laptop State=UNKNOWN RealMemory=3000' >> /usr/local/etc/slurm.conf
 ```
-3. On the controller node, ensure that there is an assigned ip address to the hostname of the previously added compute node in the ```/etc/hosts``` file inside Singularity container, if no such entry, edit that file (in Singularity shell).
 4. Install slurm-singularity-cluster with ```slurm_compute_node.def``` on a machine you want to be a compute node:
 
 First, download:
@@ -110,19 +110,25 @@ Then, configure ```slurm_compute_node.def``` with your controller's hostname
 ```bash
 sed -i 's/vn01/controller_hostname/g' slurm_compute_node.def
 ```
-Finally, 
+
+Then,
 ```bash
 singularity build --fakeroot slurm.sif slurm_compute_node.def
 cat /etc/hosts > myhosts
+```
+
+**Important!**: If necessary, edit the ```myhosts``` file to set an ip address for the hostname of the controller node.
+
+Finally,
+```bash
 # This command below creates a temporary instance, a sandbox environment,
 #     so all changes will lost when you stop the instance
 singularity instance start --fakeroot --writable -c --bind /dev/fuse --bind myhosts:/etc/hosts slurm.sif sis
 # Check if instance initialization has ended (do not afraid of "No such file or directory" output):
 xd=""; while [[ $xd != "/data/done" ]]; do sleep 1; xd=`singularity exec instance://sis ls /data/done`; done
 ```
-5. On compute node, ensure that there is an assigned ip address to the hostname of the controller node in the ```/etc/hosts``` file inside Singularity container, if no such entry, edit that file (in Singularity shell).
 
-6. Start slurm daemons
+5. Start slurm daemons
 
 (in Singularity shell)
 
@@ -144,7 +150,7 @@ Start slurmd on compute node:
 ```bash
 slurmd
 ```
-7. Check
+6. Check
 
 (in Singularity shell)
 
@@ -159,7 +165,7 @@ If a compute node state is not idle, try to change it to idle with this command,
 ```bash
 scontrol update nodename=laptop state=idle
 ```
-8. Test the slurm cluster with an mpi application
+7. Test the slurm cluster with an mpi application
 
 (in Singularity shell)
 
